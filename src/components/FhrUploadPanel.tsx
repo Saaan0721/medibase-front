@@ -4,6 +4,7 @@ import axios from "axios";
 import { sha256 } from "../utils/sha256";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../store/useUserStore";
+import { FlowerSpinner } from "react-epic-spinners";
 
 function extractFullName(resource: any): string | null {
   try {
@@ -93,7 +94,7 @@ export default function FhrUploadPanel() {
         FHIR 형태의 전자 의무기록을 업로드해주세요
       </p>
 
-      <label className="border-2 border-dashed border-gray-300 bg-gray-100 rounded p-10 w-full h-64 flex flex-col items-center justify-center cursor-pointer">
+      <label className="relative border-2 border-dashed border-gray-300 bg-gray-100 rounded p-10 w-full h-64 flex flex-col items-center justify-center cursor-pointer">
         <input
           type="file"
           accept=".json"
@@ -101,9 +102,18 @@ export default function FhrUploadPanel() {
           className="hidden"
         />
 
-        {fileName ? (
-          <p className="text-gray-700 font-medium mb-2">📎 {fileName}</p>
-        ) : (
+        {/* 로딩 중이면 오버레이 */}
+        {loading && (
+          <div className="absolute inset-0 bg-white bg-opacity-80 flex flex-col items-center justify-center z-10 rounded">
+            <FlowerSpinner color="#4B5563" size={90} />
+            <p className="mt-3 text-h3 text-gray-600 font-medium">
+              AI가 보고서를 생성 중입니다...
+            </p>
+          </div>
+        )}
+
+        {/* 기본 또는 선택된 파일 표시 */}
+        {!fileName ? (
           <>
             <FileUploadIcon
               sx={{ width: 60, height: 60 }}
@@ -113,9 +123,11 @@ export default function FhrUploadPanel() {
               파일을 드래그하거나 클릭하여 선택하세요
             </p>
           </>
+        ) : (
+          <p className="text-gray-700 font-medium mb-2 z-0">📎 {fileName}</p>
         )}
 
-        <p className="text-body2 text-gray-700 mb-4">
+        <p className="text-body2 text-gray-700 mb-4 z-0">
           FHIR(JSON) 파일만 지원합니다
         </p>
       </label>

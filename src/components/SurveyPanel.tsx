@@ -3,6 +3,7 @@ import axios from "axios";
 import { sha256 } from "../utils/sha256";
 import { globalHealthQuestions } from "../data/globalHealthQuestions";
 import { useUserStore } from "../store/useUserStore"; // zustand 예시
+import { useNavigate } from "react-router-dom";
 
 type Question = {
   id: number;
@@ -18,7 +19,7 @@ export default function SurveyPanel({ researchId }: SurveyPanelProps) {
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [loading, setLoading] = useState(false);
   const currentSurvey = globalHealthQuestions;
-
+  const navigate = useNavigate();
   const userName = useUserStore((state) => state.name); // zustand 사용 시
 
   const handleSelect = (questionId: number, option: string) => {
@@ -57,6 +58,7 @@ export default function SurveyPanel({ researchId }: SurveyPanelProps) {
       });
 
       alert("제출되었습니다!");
+      navigate("/patient/research");
     } catch (err) {
       console.error(err);
       alert("오류가 발생했습니다.");

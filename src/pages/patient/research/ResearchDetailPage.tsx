@@ -5,6 +5,7 @@ import OverviewPanel from "../../../components/OverviewPanel";
 import SurveyPanel from "../../../components/SurveyPanel";
 import { AnimatePresence, motion } from "framer-motion";
 import { useParams } from "react-router-dom";
+import UserAvatar from "../../../components/UserAvatar";
 
 const tabs = [
   { key: "overview", label: "연구개요" },
@@ -20,12 +21,7 @@ export default function ResearchDetailPage() {
       {/* 헤더 */}
       <header className="flex justify-between items-center pb-4 mb-6">
         <Logo />
-        <div className="flex items-center gap-4">
-          <span className="text-gray-600">김커피 님</span>
-          <button className="bg-black text-white px-4 py-1 rounded">
-            제출하기
-          </button>
-        </div>
+        <UserAvatar name="김커피" />
       </header>
 
       {/* 탭 */}

@@ -3,6 +3,7 @@ import Logo from "../../../components/Logo";
 import NavTabs from "../../../components/NavTab";
 import FhrUploadPanel from "../../../components/FhrUploadPanel";
 import { AnimatePresence, motion } from "framer-motion";
+import UserAvatar from "../../../components/UserAvatar";
 
 const tabs = [{ key: "fhr", label: "데이터 업로드" }];
 
@@ -14,12 +15,7 @@ export default function FhrUpload() {
       {/* 헤더 */}
       <header className="flex justify-between items-center pb-4 mb-6">
         <Logo />
-        <div className="flex items-center gap-4">
-          <span className="text-gray-600">김커피 님</span>
-          <button className="bg-black text-white px-4 py-1 rounded">
-            제출하기
-          </button>
-        </div>
+        <UserAvatar name="김커피" />
       </header>
 
       {/* 탭 */}
