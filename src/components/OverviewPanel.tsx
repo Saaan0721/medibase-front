@@ -1,52 +1,31 @@
-// src/pages/patient/FhrUploadPanel.tsx
-
 import { useState } from "react";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
+import { researchData } from "../data/researchData";
 
-export default function FhrUploadPanel() {
+type OverviewPanelProps = {
+  researchId: string;
+};
+
+export default function OverviewPanel({ researchId }: OverviewPanelProps) {
+  console.log("OverviewPanel rendered with researchId:", researchId);
   const [fileName, setFileName] = useState<string | null>(null);
+  const survey = researchData.find((item) => item.key === researchId);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) setFileName(file.name);
   };
 
+  if (!survey) return <p>존재하지 않는 연구입니다.</p>;
+
   return (
     <>
-      {/* 파일 업로드 영역 */}
+      {/* 연구 개요 제목 및 설명 */}
       <section className="bg-white p-8">
-        <h2 className="text-h3 font-bold text-gray-900 mb-2">파일 업로드</h2>
-        <p className="text-subtitle2 font-medium text-gray-900 mb-4">
-          FHIR 형태의 전자 의무기록을 업로드해주세요
+        <h2 className="text-h3 font-bold text-gray-900 mb-2">{survey.title}</h2>
+        <p className="text-subtitle2 font-medium text-gray-900 mb-6">
+          {survey.meta?.[0]?.description}
         </p>
-
-        <label className="border-2 border-dashed border-gray-300 bg-gray-100 rounded p-10 w-full h-64 flex flex-col items-center justify-center cursor-pointer">
-          {fileName ? (
-            <p className="text-gray-700 font-medium mb-2">📎 {fileName}</p>
-          ) : (
-            <>
-              <FileUploadIcon
-                sx={{ width: 60, height: 60 }}
-                className="text-gray-500 mb-2"
-              />
-              <p className="text-gray-700 text-subtitle2 font-bold mb-2">
-                파일을 드래그하거나 클릭하여 선택하세요
-              </p>
-            </>
-          )}
-          <p className="text-body2 text-gray-700 mb-4">
-            FHIR(JSON) 파일만 지원합니다
-          </p>
-          <input
-            type="file"
-            accept=".json"
-            onChange={handleFileChange}
-            className="hidden"
-          />
-          <button className="bg-black text-white px-4 py-2 rounded-md text-body1 font-bold">
-            제출하기
-          </button>
-        </label>
       </section>
 
       {/* 보안 설명 */}
