@@ -25,7 +25,6 @@ export default function ResearchDetailPage() {
       </header>
 
       {/* 탭 */}
-
       <NavTabs active={activeTab} onChange={setActiveTab} tabs={tabs} />
 
       {/* 콘텐츠 영역 */}

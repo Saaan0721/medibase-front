@@ -5,30 +5,38 @@ export default function RewardPage() {
   const rawText = state?.report || "";
   const navigate = useNavigate();
 
-  console.log("리포트 내용:", rawText);
-
   const lines = rawText.split("\n").filter(Boolean);
 
   return (
     <div className="p-8 max-w-3xl mx-auto">
-      <h1 className="text-h2 font-bold mb-6 text-gray-900">
+      {/* 페이지 제목 */}
+      <h1 className="text-2xl font-bold mb-6 text-gray-900">
         📋 건강 분석 리포트
       </h1>
 
-      <div className="bg-white border border-gray-300 rounded-xl p-6 space-y-4 text-gray-800 text-sm leading-relaxed">
+      {/* 리포트 본문 */}
+      <div className="bg-white border border-gray-300 rounded-xl p-6 space-y-4 text-gray-800 leading-relaxed">
         {lines.map((line: string, idx: number) => {
           if (line.startsWith("===")) {
-            return <hr key={idx} className="border-t-2 border-gray-400 my-6" />;
+            return <hr key={idx} className="border-t-4 border-blue-500 my-6" />;
           }
 
           if (line.startsWith("---")) {
-            return <hr key={idx} className="border-t border-gray-300" />;
+            return <hr key={idx} className="border-t border-gray-300 my-2" />;
           }
 
-          if (line.startsWith("#")) {
+          if (
+            line.startsWith("📊") ||
+            line.startsWith("🏥") ||
+            line.startsWith("💊") ||
+            line.startsWith("📈") ||
+            line.startsWith("🎯") ||
+            line.startsWith("💉") ||
+            line.startsWith("✅")
+          ) {
             return (
-              <h2 key={idx} className="text-lg font-bold text-black mt-6">
-                {line.replace(/#*/g, "").trim()}
+              <h2 key={idx} className="text-xl font-semibold text-black mt-6">
+                {line}
               </h2>
             );
           }
@@ -43,7 +51,7 @@ export default function RewardPage() {
 
           if (line.startsWith("· ")) {
             return (
-              <li key={idx} className="ml-6 list-disc">
+              <li key={idx} className="ml-6 list-disc text-sm text-gray-700">
                 {line.replace(/^· /, "")}
               </li>
             );
@@ -51,24 +59,28 @@ export default function RewardPage() {
 
           if (line.startsWith("- ")) {
             return (
-              <p key={idx} className="ml-2">
+              <p key={idx} className="ml-2 text-sm text-gray-600">
                 <span className="text-black font-medium">•</span>{" "}
                 {line.replace(/^- /, "")}
               </p>
             );
           }
 
-          return <p key={idx}>{line}</p>;
+          return (
+            <p key={idx} className="text-base text-gray-700">
+              {line}
+            </p>
+          );
         })}
       </div>
 
-      {/* 하단 이동 버튼 */}
-      <div className="flex justify-end mt-8">
+      {/* 버튼 */}
+      <div className="mt-8 text-center">
         <button
-          onClick={() => navigate("/patient/research")}
-          className="bg-blue-600 text-white px-6 py-2 rounded font-semibold"
+          onClick={() => navigate(-1)}
+          className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
         >
-          연구 참여하러 가기
+          이전으로 돌아가기
         </button>
       </div>
     </div>

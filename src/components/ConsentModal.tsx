@@ -85,7 +85,7 @@ export default function ConsentModal({ onConfirm }: ConsentModalProps) {
 
           <button
             onClick={onConfirm}
-            className="w-full py-3 rounded text-white font-semibold bg-black"
+            className="w-full py-3 rounded-md text-white bg-gray-900 font-bold text-body1"
           >
             전부 확인하고 동의합니다
           </button>

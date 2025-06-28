@@ -6,6 +6,7 @@ import ResearchListPage from "./pages/patient/research/ResearchListPage";
 import RewardPage from "./pages/patient/reward/RewardPage";
 import ResearchDashboard from "./pages/researcher/dashboard/DashboardPage";
 import RegistrationPage from "./pages/researcher/registration/RegistrationPage";
+import ResearchExportPage from "./pages/researcher/research/ResearchExportPage";
 
 function App() {
   return (
@@ -25,6 +26,10 @@ function App() {
           element={
             <RegistrationPage onBack={() => {}} onStartRecruitment={() => {}} />
           }
+        />
+        <Route
+          path="/researcher/research/:researchId"
+          element={<ResearchExportPage />}
         />
       </Routes>
     </Router>

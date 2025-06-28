@@ -13,11 +13,17 @@ export type SurveyData = {
   title: string;
   meta: SurveyMeta[];
   questions: SurveyQuestion[];
+  institution: string;
+  due: string;
+  reward: string;
 };
 export const researchData: SurveyData[] = [
   {
     key: "itchInterference",
     title: "가려움증 간섭 정도 (Itch Interference)",
+    institution: "서울대학교 의과대학",
+    due: "2024-12-31",
+    reward: "6000원",
     meta: [
       {
         title: "무엇을 측정하나요?",
@@ -75,6 +81,9 @@ export const researchData: SurveyData[] = [
   {
     key: "globalHealth",
     title: "전반적 건강 상태 (Global Health)",
+    institution: "서울대학교 의과대학",
+    due: "2024-10-11",
+    reward: "6000원",
     meta: [
       {
         title: "무엇을 측정하나요?",
@@ -141,6 +150,9 @@ export const researchData: SurveyData[] = [
   {
     key: "cognitiveFunction",
     title: "인지 기능 (Cognitive Function)",
+    institution: "연세대학교 의료원",
+    due: "2024-06-31",
+    reward: "6000원",
     meta: [
       {
         title: "무엇을 측정하나요?",
@@ -199,6 +211,9 @@ export const researchData: SurveyData[] = [
   {
     key: "sleepDisturbance",
     title: "수면 방해 (Sleep Disturbance)",
+    institution: "서울대학교 의과대학",
+    due: "2024-08-01",
+    reward: "6000원",
     meta: [
       {
         title: "무엇을 측정하나요?",

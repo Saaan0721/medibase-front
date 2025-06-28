@@ -6,6 +6,8 @@ import ConfirmModal from "../../../components/ConfirmModal";
 import { useModalStore } from "../../../store/useModalStore";
 import ConsentModal from "../../../components/ConsentModal";
 import UserAvatar from "../../../components/UserAvatar";
+import UploadConfirmModal from "../../../components/UploadModal";
+import StatusBadge from "../../../components/StatusBadge";
 
 export default function ResearchListPage() {
   const navigate = useNavigate();
@@ -21,53 +23,81 @@ export default function ResearchListPage() {
   }, [hasSeenModal]);
 
   return (
-    <div className="min-h-screen bg-white px-8 py-10">
+    <div className="min-h-screen bg-white flex flex-col">
       {/* 헤더 */}
-      <header className="flex justify-between items-center pb-4 mb-6">
+      <header className="flex justify-between items-center px-8 py-10">
         <Logo />
         <UserAvatar name="김커피" />
       </header>
 
       {/* 본문 */}
-      <h2 className="text-h2 font-bold text-gray-900 mb-6">연구 설문 목록</h2>
-
-      <div className="space-y-4">
+      <main className="flex-1 overflow-y-auto bg-gray-100 px-8 py-8 space-y-4">
         {researchData.map((survey) => (
           <div
             key={survey.key}
-            className="border border-gray-200 rounded-lg p-6 hover:bg-gray-50 transition cursor-pointer"
+            className=" bg-white rounded-[20px] p-8 hover:bg-gray-50 transition cursor-pointer"
             onClick={() => navigate(`/patient/research/${survey.key}`)}
           >
-            <h3 className="text-h3 font-semibold text-gray-900 mb-2">
-              {survey.title}
-            </h3>
-            <p className="text-subtitle2 text-gray-700">
+            <div className="flex items-center gap-2 my-4">
+              <h3 className="text-subtitle1 font-bold text-gray-900">
+                {survey.title}
+              </h3>
+              <StatusBadge status="진행 중" />
+            </div>
+
+            <p className="text-subtitle2 text-gray-700 my-4">
               {survey.meta[0]?.description}
             </p>
+            <div className="flex items-center gap-6 mb-2">
+              <div className="flex items-center gap-2 mb-2">
+                <img
+                  src="/assets/person.svg"
+                  alt="person icon"
+                  className="w-6 h-6"
+                />
+                <p className="text-subtitle2 text-gray-700">
+                  {survey.institution}
+                </p>
+              </div>
+              <div className="flex items-center gap-2 mb-2">
+                <img
+                  src="/assets/calendar.svg"
+                  alt="calendar icon"
+                  className="w-6 h-6"
+                />
+                <p className="text-subtitle2 text-gray-700">
+                  마감일 | {survey.due}
+                </p>
+              </div>
+              <div className="flex items-center gap-2 mb-2">
+                <img
+                  src="/assets/reward.svg"
+                  alt="reward icon"
+                  className="w-6 h-6"
+                />
+                <p className="text-subtitle2 text-gray-700">{survey.reward}</p>
+              </div>
+            </div>
           </div>
         ))}
-      </div>
-      {/* 1차 확인 모달 */}
+      </main>
+
+      {/* 모달 */}
       {showConfirmModal && (
-        <ConfirmModal
-          title="전자 의무기록이 필요합니다"
-          description={`설문에 참여하시기 전에\nFHIR 형식의 의무기록을 먼저 업로드해주세요.`}
+        <UploadConfirmModal
           onClose={() => setShowConfirmModal(false)}
           onConfirm={() => {
             setShowConfirmModal(false);
-            setShowConsentModal(true); // 확인 시 동의 모달 열기
+            setShowConsentModal(true);
           }}
-          confirmText="업로드하러 가기"
-          cancelText="취소"
         />
       )}
 
-      {/* 2차 동의 모달 */}
       {showConsentModal && (
         <ConsentModal
           onConfirm={() => {
             setShowConsentModal(false);
-            navigate("/patient/upload"); // 동의 완료 후 업로드 페이지로 이동
+            navigate("/patient/upload");
           }}
         />
       )}
