@@ -43,6 +43,14 @@ export default function ResearchRegistrationPage({
         <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-8">
           <h2 className="text-xl font-semibold mb-6">새 연구 등록</h2>
           <form className="space-y-6">
+            {/* 연구 소개 헤더 */}
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                i
+              </div>
+              <h3 className="text-base font-semibold text-gray-900">연구 소개</h3>
+            </div>
+
             {/* 제목 */}
             <div>
               <label htmlFor="title" className="block text-sm font-medium mb-1">
@@ -77,48 +85,6 @@ export default function ResearchRegistrationPage({
                 placeholder="성인(≥18세) 고형암 또는 혈액암 진단 환자/EGFR 억제제(예: erlotinib), 면역관문억제제(예: pembrolizumab), 표적치료제(예: imatinib), 전통적 화학요법(예: platinum 계열) 중 하나 단독 또는 병용 투여"
                 className="w-full border border-gray-300 px-3 py-2 rounded min-h-[120px] resize-none"
               />
-            </div>
-
-
-            {/* 기간 */}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="start-date" className="block text-sm font-medium mb-1">
-                  연구 시작일 <span className="text-red-500">*</span>
-                </label>
-                <input
-                  id="start-date"
-                  type="date"
-                  className="w-full border border-gray-300 px-3 py-2 rounded"
-                />
-              </div>
-              <div>
-                <label htmlFor="end-date" className="block text-sm font-medium mb-1">
-                  연구 종료일 <span className="text-red-500">*</span>
-                </label>
-                <input
-                  id="end-date"
-                  type="date"
-                  className="w-full border border-gray-300 px-3 py-2 rounded"
-                />
-              </div>
-            </div>
-
-            {/* 상태 */}
-            <div>
-              <label htmlFor="status" className="block text-sm font-medium mb-1">
-                연구 상태 <span className="text-red-500">*</span>
-              </label>
-              <select
-                id="status"
-                className="w-full border border-gray-300 px-3 py-2 rounded"
-                defaultValue=""
-              >
-                <option value="" disabled>연구 상태를 선택하세요</option>
-                <option value="recruiting">모집 중</option>
-                <option value="ongoing">진행 중</option>
-                <option value="pending">승인 대기</option>
-              </select>
             </div>
 
             {/* 설문 섹션 */}
@@ -183,23 +149,6 @@ export default function ResearchRegistrationPage({
                   </select>
                 </div>
               </div>
-            </div>
-
-            {/* 버튼 */}
-            <div className="flex justify-end space-x-4 pt-6">
-              <button
-                type="button"
-                onClick={onBack}
-                className="text-gray-600 hover:underline"
-              >
-                취소
-              </button>
-              <button
-                type="submit"
-                className="bg-black text-white px-6 py-2 rounded font-semibold hover:bg-gray-800"
-              >
-                연구 등록
-              </button>
             </div>
           </form>
         </div>
