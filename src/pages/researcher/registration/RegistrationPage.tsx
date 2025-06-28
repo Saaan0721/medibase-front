@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, FolderOpen } from "lucide-react";
 import UserAvatar from "../../../components/UserAvatar";
 
 interface ResearchRegistrationPageProps {
@@ -10,6 +10,7 @@ interface ResearchRegistrationPageProps {
 
 export default function ResearchRegistrationPage({
   onBack,
+  onStartRecruitment,
 }: ResearchRegistrationPageProps) {
   return (
     <div className="min-h-screen bg-[#F5F6F7]">
@@ -27,7 +28,12 @@ export default function ResearchRegistrationPage({
           </div>
           <div className="flex items-center space-x-4">
             <UserAvatar name="박콜라" />
-            <span className="text-sm text-gray-800">박콜라 님</span>
+            <button
+              onClick={onStartRecruitment}
+              className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition-colors"
+            >
+              모집 시작하기
+            </button>
           </div>
         </div>
       </header>
@@ -44,69 +50,40 @@ export default function ResearchRegistrationPage({
               </label>
               <input
                 id="title"
-                placeholder="연구 제목을 입력하세요"
+                placeholder="특정 항암 치료를 받은 암 환자에서 항암제군별 가려움 중증도 비교"
                 className="w-full border border-gray-300 px-3 py-2 rounded"
               />
             </div>
 
-            {/* 설명 */}
+            {/* 배경 */}
             <div>
-              <label
-                htmlFor="description"
-                className="block text-sm font-medium mb-1"
-              >
-                연구 설명 <span className="text-red-500">*</span>
+              <label htmlFor="description" className="block text-sm font-medium mb-1">
+                연구 배경 <span className="text-red-500">*</span>
               </label>
               <textarea
                 id="description"
-                placeholder="연구에 대한 상세한 설명을 입력하세요"
-                className="w-full border border-gray-300 px-3 py-2 rounded min-h-[120px]"
+                placeholder="EGFR 억제제, 면역관문억제제, 표적치료제, 기존 화학요법 등 주요 항암제 클래스별 가려움 중증도(Pruritus Severity) 평균 차이를 비교"
+                className="w-full border border-gray-300 px-3 py-2 rounded min-h-[120px] resize-none"
               />
             </div>
 
-            {/* 분야 */}
+            {/* 연구 참여자 */}
             <div>
-              <label htmlFor="field" className="block text-sm font-medium mb-1">
-                연구 분야 <span className="text-red-500">*</span>
+              <label htmlFor="participants" className="block text-sm font-medium mb-1">
+                연구 대상자 선정 <span className="text-red-500">*</span>
               </label>
-              <select
-                id="field"
-                className="w-full border border-gray-300 px-3 py-2 rounded"
-                defaultValue=""
-              >
-                <option value="" disabled>
-                  연구 분야를 선택하세요
-                </option>
-                <option value="experimental">실험의학</option>
-                <option value="clinical">임상의학</option>
-                <option value="preventive">예방의학</option>
-                <option value="basic">기초의학</option>
-              </select>
-            </div>
-
-            {/* 참여자 수 */}
-            <div>
-              <label
-                htmlFor="participants"
-                className="block text-sm font-medium mb-1"
-              >
-                목표 참여자 수 <span className="text-red-500">*</span>
-              </label>
-              <input
+              <textarea
                 id="participants"
-                type="number"
-                placeholder="예: 200"
-                className="w-full border border-gray-300 px-3 py-2 rounded"
+                placeholder="성인(≥18세) 고형암 또는 혈액암 진단 환자/EGFR 억제제(예: erlotinib), 면역관문억제제(예: pembrolizumab), 표적치료제(예: imatinib), 전통적 화학요법(예: platinum 계열) 중 하나 단독 또는 병용 투여"
+                className="w-full border border-gray-300 px-3 py-2 rounded min-h-[120px] resize-none"
               />
             </div>
+
 
             {/* 기간 */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label
-                  htmlFor="start-date"
-                  className="block text-sm font-medium mb-1"
-                >
+                <label htmlFor="start-date" className="block text-sm font-medium mb-1">
                   연구 시작일 <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -116,10 +93,7 @@ export default function ResearchRegistrationPage({
                 />
               </div>
               <div>
-                <label
-                  htmlFor="end-date"
-                  className="block text-sm font-medium mb-1"
-                >
+                <label htmlFor="end-date" className="block text-sm font-medium mb-1">
                   연구 종료일 <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -132,10 +106,7 @@ export default function ResearchRegistrationPage({
 
             {/* 상태 */}
             <div>
-              <label
-                htmlFor="status"
-                className="block text-sm font-medium mb-1"
-              >
+              <label htmlFor="status" className="block text-sm font-medium mb-1">
                 연구 상태 <span className="text-red-500">*</span>
               </label>
               <select
@@ -143,13 +114,75 @@ export default function ResearchRegistrationPage({
                 className="w-full border border-gray-300 px-3 py-2 rounded"
                 defaultValue=""
               >
-                <option value="" disabled>
-                  연구 상태를 선택하세요
-                </option>
+                <option value="" disabled>연구 상태를 선택하세요</option>
                 <option value="recruiting">모집 중</option>
                 <option value="ongoing">진행 중</option>
                 <option value="pending">승인 대기</option>
               </select>
+            </div>
+
+            {/* 설문 섹션 */}
+            <div>
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                  <FolderOpen className="w-3 h-3" />
+                </div>
+                <h3 className="text-base font-semibold text-gray-900">설문 형태 설정</h3>
+              </div>
+
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium mb-1">나이</label>
+                  <select className="w-full border border-gray-300 px-3 py-2 rounded" defaultValue="">
+                    <option value="" disabled>선택</option>
+                    <option value="adult-self">본인(성인)</option>
+                    <option value="teen-self">본인(청소년)</option>
+                    <option value="guardian-adult">보호자 응답(성인 환자)</option>
+                    <option value="guardian-teen">보호자 응답(청소년 환자)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1">건강 카테고리</label>
+                  <select className="w-full border border-gray-300 px-3 py-2 rounded" defaultValue="">
+                    <option value="" disabled>선택</option>
+                    <option value="mental">정신 건강</option>
+                    <option value="social">사회적 건강</option>
+                    <option value="physical">신체 건강</option>
+                    <option value="overall">전반적 건강</option>
+                    <option value="profile">건강 프로파일</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1">영역</label>
+                  <select className="w-full border border-gray-300 px-3 py-2 rounded" defaultValue="">
+                    <option value="" disabled>선택</option>
+                    <option value="pain">통증</option>
+                    <option value="fatigue">피로</option>
+                    <option value="itching">가려움</option>
+                    <option value="breathing">호흡 곤란</option>
+                    <option value="gastro">위장 건강</option>
+                    <option value="physical-function">신체 기능</option>
+                    <option value="sleep">수면 장애</option>
+                    <option value="sexual">성기능 및 만족도</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1">세부 영역</label>
+                  <select className="w-full border border-gray-300 px-3 py-2 rounded" defaultValue="">
+                    <option value="" disabled>선택</option>
+                    <option value="life-interference">생활 방해</option>
+                    <option value="quality-of-life">삶의 질</option>
+                    <option value="scratching">긁는 행동</option>
+                    <option value="symptom-severity">증상 심각도</option>
+                    <option value="activity-clothing">활동 및 복장</option>
+                    <option value="mood-sleep">기분 및 수면</option>
+                    <option value="triggers">유발 요인</option>
+                  </select>
+                </div>
+              </div>
             </div>
 
             {/* 버튼 */}
@@ -163,7 +196,7 @@ export default function ResearchRegistrationPage({
               </button>
               <button
                 type="submit"
-                className="bg-neutral-900 hover:bg-neutral-800 text-white px-6 py-2 rounded font-semibold"
+                className="bg-black text-white px-6 py-2 rounded font-semibold hover:bg-gray-800"
               >
                 연구 등록
               </button>

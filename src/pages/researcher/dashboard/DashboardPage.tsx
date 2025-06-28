@@ -34,7 +34,6 @@ export default function ResearchDashboard() {
           </div>
           <div className="flex items-center space-x-4">
             <UserAvatar name="박콜라" />
-            <span className="text-sm text-gray-800">박콜라 님</span>
             <button
               onClick={() => setCurrentPage("register")}
               className="px-4 py-2 rounded bg-gray-800 text-white hover:bg-gray-700"
