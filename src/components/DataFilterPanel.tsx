@@ -40,14 +40,14 @@ export default function DataFilterPanel({ onChange }: DataFilterPanelProps) {
   };
 
   return (
-    <div className="flex bg-white rounded border overflow-hidden w-fit shadow-sm">
+    <div className="flex bg-white rounded border w-[500px] shadow-sm">
       {/* Sub Category (ex. 나이, 키...) */}
-      <div className="flex flex-col border-r min-w-[140px]">
+      <div className="flex flex-col border-r">
         {subKeys.map((sub) => (
           <button
             key={sub}
             onClick={() => setSelectedSub(sub)}
-            className={`px-4 py-2 text-left text-sm ${
+            className={`px-4 py-2 text-left text-sm w-[301px] ${
               selectedSub === sub
                 ? "bg-blue-50 font-semibold"
                 : "hover:bg-gray-50"
@@ -61,7 +61,7 @@ export default function DataFilterPanel({ onChange }: DataFilterPanelProps) {
 
       {/* 옵션 리스트 */}
       {selectedSub && subFields[selectedSub]?.length > 0 && (
-        <div className="flex flex-col min-w-[140px]">
+        <div className="flex flex-col">
           {subFields[selectedSub].map((option) => (
             <button
               key={option}

@@ -1,10 +1,10 @@
-// src/pages/researcher/research/[researchId]/ResearchDetailPage.tsx
 import { useState } from "react";
 import Logo from "../../../components/Logo";
 import UserAvatar from "../../../components/UserAvatar";
 import DataFilterPanel from "../../../components/DataFilterPanel"; // ✅ 추가
 import NavTabs from "../../../components/NavTab";
 import axios from "axios";
+import { saveAs } from "file-saver";
 
 const categories = [
   "환자 정보",
@@ -46,7 +46,7 @@ export default function ResearchExportPage() {
   };
 
   const handleDownload = async () => {
-    // 예시: 나이 조건만 전송
+    // 나이 조건만 전송
     const ageRanges = selectedOptions.map(ageOptionToRange).filter(Boolean) as [
       number,
       number
@@ -60,20 +60,22 @@ export default function ResearchExportPage() {
     }
 
     try {
-      const baseUrl = process.env.REACT_APP_API_BASE_URL;
-      const res = await axios.get(`${baseUrl}/export-data`, {
-        params: { min_age: minAge, max_age: maxAge },
-        responseType: "blob",
+      const params = new URLSearchParams();
+      params.append("min_age", minAge.toString());
+      params.append("max_age", maxAge.toString());
+      params.append("med_codes[]", "ABC123");
+      params.append("med_codes[]", "DEF456");
+
+      const res = await axios.get("http://13.125.199.72:8000/export-data", {
+        params,
+        responseType: "blob", // Blob 형식으로 응답 받기
       });
 
-      const blob = new Blob([res.data], { type: "application/vnd.ms-excel" });
-      const url = URL.createObjectURL(blob);
-
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "exported_data.xlsx";
-      a.click();
-      URL.revokeObjectURL(url);
+      // 파일 저장
+      const blob = new Blob([res.data], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      saveAs(blob, "result.xlsx"); // result.xlsx라는 파일명으로 다운로드
     } catch (err) {
       console.error("다운로드 실패", err);
       alert("다운로드 중 오류가 발생했습니다.");
@@ -81,70 +83,72 @@ export default function ResearchExportPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 px-8 py-10">
-      {/* 헤더 */}
-      <header className="flex justify-between items-center pb-4 mb-6">
-        <Logo />
-        <div className="flex items-center space-x-4">
-          <UserAvatar name="김연구" />
-        </div>
-      </header>
-
-      {/* 타이틀 */}
-      <div className="mb-8">
-        <div className="flex flex-row justify-between items-center">
-          <NavTabs active={activeTab} onChange={setActiveTab} tabs={tabs} />
-          <button
-            className="bg-black text-white px-4 py-2 rounded font-semibold mb-10"
-            onClick={handleDownload}
-          >
-            데이터 다운로드 하기
-          </button>
-        </div>
-        <p className="text-subtitle1 text-gray-800">
-          다운로드 받을 데이터를 선택하세요
-        </p>
-      </div>
-
-      {/* 선택 리스트 */}
-      <div
-        className={`w-full text-sm px-4 py-3 rounded-lg border font-semibold
-             bg-white text-gray-900 border-gray-200 hover:bg-gray-100 mb-4
-        `}
-      >
-        FHIR 항목 전체
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        {categories.map((category) => (
-          <div key={category} className="relative">
-            <button
-              onClick={() => toggleSelect(category)}
-              className={`w-full text-sm px-4 py-3 rounded-lg border font-semibold ${
-                selected.includes(category)
-                  ? "bg-black text-white"
-                  : "bg-white text-gray-900 border-gray-200 hover:bg-gray-100"
-              }`}
-            >
-              {category}
-            </button>
-
-            {/* 버튼 바로 하단에 패널 표시 */}
-            {category === "환자 정보" && selected.includes("환자 정보") && (
-              <div className="absolute left-0 mt-2 z-10 w-full">
-                <DataFilterPanel
-                  onChange={(options) => setSelectedOptions(options)}
-                />
-              </div>
-            )}
+    <div className="min-h-screen bg-gray-50 py-10 px-28 flex justify-center">
+      <div className="w-[1231px]">
+        {/* 헤더 */}
+        <header className="flex justify-between items-center pb-4 mb-6">
+          <Logo />
+          <div className="flex items-center space-x-4">
+            <UserAvatar name="김연구" />
           </div>
-        ))}
-      </div>
-      <div
-        className={`w-full text-sm px-4 py-3 rounded-lg border font-semibold
-             bg-white text-gray-900 border-gray-200 hover:bg-gray-100 mb-4
-        `}
-      >
-        PRO Data
+        </header>
+
+        {/* 타이틀 */}
+        <div className="mb-8">
+          <div className="flex flex-row justify-between items-center">
+            <NavTabs active={activeTab} onChange={setActiveTab} tabs={tabs} />
+            <button
+              className="bg-black text-white px-4 py-2 rounded font-semibold mb-10"
+              onClick={handleDownload}
+            >
+              데이터 다운로드 하기
+            </button>
+          </div>
+          <p className="text-h3 font-bold text-gray-900">
+            다운로드 받을 데이터를 선택하세요
+          </p>
+        </div>
+
+        {/* 선택 리스트 */}
+        <div
+          className={`text-body1 px-4 py-3 border font-bold
+    bg-white text-gray-900 border-gray-200 hover:bg-gray-100 mb-4 h-16 rounded-xl
+    flex items-center`}
+        >
+          FHIR 항목 전체
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 mb-6 w-[1231px]">
+          {categories.map((category) => (
+            <div key={category} className="relative">
+              <button
+                onClick={() => toggleSelect(category)}
+                className={`w-full h-16 px-4 py-3 text-left text-body1 rounded-xl border font-bold ${
+                  selected.includes(category)
+                    ? "bg-white border-primary border-2"
+                    : "bg-white text-gray-900 border-gray-200 hover:bg-gray-100"
+                }`}
+              >
+                {category}
+              </button>
+
+              {/* 버튼 바로 하단에 패널 표시 */}
+              {category === "환자 정보" && selected.includes("환자 정보") && (
+                <div className="absolute left-0 mt-2 z-10 w-full">
+                  <DataFilterPanel
+                    onChange={(options) => setSelectedOptions(options)}
+                  />
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        <div
+          className={`text-body1 px-4 py-3 border font-bold
+    bg-white text-gray-900 border-gray-200 hover:bg-gray-100 mb-4 h-16 rounded-xl
+    flex items-center`}
+        >
+          PRO Data
+        </div>
       </div>
     </div>
   );
