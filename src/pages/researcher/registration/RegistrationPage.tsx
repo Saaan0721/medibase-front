@@ -15,22 +15,27 @@ export default function ResearchRegistrationPage({
   return (
     <div className="min-h-screen bg-[#F5F6F7]">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-8 pt-8 pb-4">
-        <div className="flex justify-between items-start">
-          <div className="flex items-center space-x-4">
-            <button onClick={onBack} className="p-2 hover:bg-gray-100">
+      <header className="bg-white border-b border-gray-100 px-20 pt-10 pb-6">
+        <div className="flex justify-between items-center">
+          {/* 왼쪽: MediBase와 연구 등록 */}
+          <div className="flex items-center space-x-6">
+            <button onClick={onBack} className="p-2 hover:bg-gray-100 self-start">
               <ArrowLeft className="h-4 w-4" />
             </button>
-            <div className="flex flex-col space-y-1">
-              <h1 className="text-xl font-bold text-black">MediBase</h1>
-              <h2 className="text-base text-black">연구 등록</h2>
+            <div className="flex flex-col items-end space-y-12">
+              <h1 className="text-[2.25rem] font-bold text-gray-800 leading-[2.75rem]">MediBase</h1>
+              <h2 className="text-[1.75rem] font-bold text-gray-700 border-b-[3px] border-gray-700 w-fit pb-1 px-2 mt-4">
+                연구 등록
+              </h2>
             </div>
           </div>
-          <div className="flex items-center space-x-4">
+
+          {/* 오른쪽: 박콜라님 아바타 + 버튼 */}
+          <div className="flex flex-col items-end gap-4">
             <UserAvatar name="박콜라" />
             <button
               onClick={onStartRecruitment}
-              className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition-colors"
+              className="px-4 py-3 rounded bg-gray-900 text-white hover:bg-gray-800"
             >
               모집 시작하기
             </button>
