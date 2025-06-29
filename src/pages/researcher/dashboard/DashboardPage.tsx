@@ -10,11 +10,18 @@ export default function ResearchDashboard() {
   const navigate = useNavigate(); // 추가
   const [currentPage, setCurrentPage] = useState("dashboard");
   const [hasNewResearch, setHasNewResearch] = useState(false);
+  const [inProgressCount, setInProgressCount] = useState(2);
+  const [recruitingCount, setRecruitingCount] = useState(1);
 
   const handleStartRecruitment = () => {
     setHasNewResearch(true);
+    setInProgressCount(prev => prev + 1);
+    setRecruitingCount(prev => prev + 1);
     setCurrentPage("dashboard");
   };
+
+  const counts = ["65", inProgressCount.toString(), recruitingCount.toString(), "123"];
+
 
   const handleCardClick = (researchId: string) => {
     navigate(`/researcher/research/${researchId}`);
@@ -32,13 +39,13 @@ export default function ResearchDashboard() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="bg-white border-b border-gray-100 px-8 pt-10 pb-6">
+      <header className="bg-white border-b border-gray-100 px-20 pt-10 pb-6">
         <div className="flex justify-between items-start">
-          <div className="flex flex-col space-y-3">
+          <div className="flex flex-col space-y-9">
             <h1 className="text-h2 font-bold text-gray-800">MediBase</h1>
-            <h2 className="text-h3 font-bold text-gray-700">연구 현황</h2>
+            <h2 className="text-h3 font-bold text-gray-700 inline-block border-b-[3px] border-gray-700 px-2 pb-2">연구 현황</h2>
           </div>
-          <div className="flex flex-col items-end space-y-5">
+          <div className="flex flex-col items-end space-y-12">
             <UserAvatar name="박콜라" />
             <button
               onClick={() => setCurrentPage("register")}
@@ -51,20 +58,19 @@ export default function ResearchDashboard() {
       </header>
 
       {/* Middle summary area */}
-      <section className="bg-gray-200 px-8 py-8">
+      <section 
+        className="px-20 py-8"
+        style={{
+          background: "linear-gradient(90deg, #E4F2E5 0%, #E5F0FF 50%, #E8E9F8 100%)"
+        }}
+      >
         <div className="grid grid-cols-4 gap-6">
-          {[
-            "전체 연구",
-            "진행 중 연구",
-            "모집 중 연구",
-            "연구 참여 희망자",
-          ].map((label, idx) => {
-            const count = ["65", "2", hasNewResearch ? "1" : "1", "123"][idx];
+          {["전체 연구", "진행 중 연구", "모집 중 연구", "연구 참여 희망자"].map((label, idx) => {
             const unit = ["개", "개", "개", "명"][idx];
             return (
               <div key={label} className="bg-white rounded-lg shadow p-6">
                 <div className="text-h3 font-bold text-gray-900">
-                  {count}
+                  {counts[idx]}
                   <span className="text-subtitle1 font-bold text-gray-900 ml-1">
                     {unit}
                   </span>
@@ -77,7 +83,7 @@ export default function ResearchDashboard() {
       </section>
 
       {/* Main content area */}
-      <main className="bg-[#F5F6F7] px-8 py-10">
+      <main className="bg-[#F5F6F7] px-20 py-10">
         <div className="mb-6">
           <h3 className="text-h3 font-bold text-gray-900 mb-4">
             현재 진행 중인 연구
