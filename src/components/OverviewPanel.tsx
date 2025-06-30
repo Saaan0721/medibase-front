@@ -1,9 +1,12 @@
-// src/pages/patient/FhrUploadPanel.tsx
-
 import { useState } from "react";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
+import { researchData } from "../data/researchData";
 
-export default function FhrUploadPanel() {
+type OverviewPanelProps = {
+  researchId: string;
+};
+
+export default function OverviewPanel({ researchId }: OverviewPanelProps) {
+  const survey = researchData.find((item) => item.key === researchId);
   const [fileName, setFileName] = useState<string | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -11,80 +14,75 @@ export default function FhrUploadPanel() {
     if (file) setFileName(file.name);
   };
 
+  if (!survey) return <p>존재하지 않는 연구입니다.</p>;
+
   return (
-    <>
-      {/* 파일 업로드 영역 */}
-      <section className="bg-white p-8">
-        <h2 className="text-h3 font-bold text-gray-900 mb-2">파일 업로드</h2>
-        <p className="text-subtitle2 font-medium text-gray-900 mb-4">
-          FHIR 형태의 전자 의무기록을 업로드해주세요
-        </p>
-
-        <label className="border-2 border-dashed border-gray-300 bg-gray-100 rounded p-10 w-full h-64 flex flex-col items-center justify-center cursor-pointer">
-          {fileName ? (
-            <p className="text-gray-700 font-medium mb-2">📎 {fileName}</p>
-          ) : (
-            <>
-              <FileUploadIcon
-                sx={{ width: 60, height: 60 }}
-                className="text-gray-500 mb-2"
-              />
-              <p className="text-gray-700 text-subtitle2 font-bold mb-2">
-                파일을 드래그하거나 클릭하여 선택하세요
-              </p>
-            </>
-          )}
-          <p className="text-body2 text-gray-700 mb-4">
-            FHIR(JSON) 파일만 지원합니다
-          </p>
-          <input
-            type="file"
-            accept=".json"
-            onChange={handleFileChange}
-            className="hidden"
+    <section className="bg-[#F6F7F9] min-h-screen px-8 py-10">
+      <div className="flex flex-col md:flex-row gap-10">
+        {/* 좌측 이미지 및 타이틀 */}
+        <div className=" flex flex-col items-start">
+          <img
+            src="/assets/virus.png"
+            alt="연구 이미지"
+            className="rounded-lg w-[600px] object-cover mb-4"
           />
-          <button className="bg-black text-white px-4 py-2 rounded-md text-body1 font-bold">
-            제출하기
-          </button>
-        </label>
-      </section>
-
-      {/* 보안 설명 */}
-      <section className="p-8">
-        <h3 className="text-h3 font-bold mb-4">데이터 보안 및 개인정보 보호</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm h-40 border border-gray-300 rounded-xl overflow-hidden items-center">
-          {[
-            {
-              title: "암호화 전송",
-              description: "모든 데이터는 암호화되어 전송됩니다",
-            },
-            {
-              title: "가명 처리",
-              description: "개인 식별 정보는 자동으로 가명 처리됩니다",
-            },
-            {
-              title: "접근 제어",
-              description: "승인된 연구자만이 데이터에 접근할 수 있습니다",
-            },
-          ].map(({ title, description }, idx) => (
-            <div key={idx} className="bg-white p-4">
-              <div className="flex items-start gap-2">
-                <div className="flex items-center justify-center w-4 h-6 mt-[2px]">
-                  <span className="w-3 h-3 bg-secondary rounded-full" />
-                </div>
-                <div>
-                  <p className="text-subtitle2 text-gray-900 font-bold mb-1">
-                    {title}
-                  </p>
-                  <p className="text-gray-700 text-subtitle2 font-medium">
-                    {description}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
+          <h2 className="text-subtitle2 font-bold text-gray-900 mb-1 ml-3">
+            특정 항암 치료를 받은 암 환자에서<br></br> 항암제군별 가려움 중증도
+            비교
+          </h2>
+          <p className="text-body2 text-gray-700 ml-3">대상자</p>
         </div>
-      </section>
-    </>
+
+        {/* 우측 연구 정보 */}
+        <div className="w-full h-fit bg-white rounded-xl p-6">
+          <h3 className="text-subtitle1 font-bold text-gray-900 mb-4">
+            연구 정보
+          </h3>
+
+          <div className="space-y-6 text-gray-800">
+            <div>
+              <h4 className="font-bold text-body1 mb-1">개요</h4>
+              <ul className="list-disc ml-4 space-y-1 font-medium text-gray-500 text-body2">
+                <li>
+                  신항암제 사용이 증가하면서 피부 독성 – 특히 가려움(pruritus)
+                  발생 빈도 및 중증도가 문제로 대두
+                </li>
+                <li>
+                  기존 임상시험 보다는 주로 의사가 평가한 등급에 의존했으나,
+                  환자 스스로 느끼는 가려움 중증도는 실제 삶의 질과 깊게 연관
+                </li>
+                <li>
+                  약제별로 가려움 발생 양상과 강도를 비교해, 환자관리 및 부작용
+                  대응 지침을 개선할 필요
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-bold text-body1 mb-1">연구 목적</h4>
+              <ul className="list-disc ml-4 space-y-1 font-medium text-gray-500 text-body2">
+                <li>
+                  EGFR 억제제, 면역관문억제제, 표적치료제, 기존 화학요법 등 주요
+                  항암제 클래스별 가려움 중증도 평균 차이 비교
+                </li>
+                <li>
+                  가려움 발생 위험인자(나이·생활·기저피부질환·동시 복용 약제 수
+                  등)가 약제별 중증도에 미치는 영향 평가
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-bold text-body1 mb-1">보유 및 이용기간</h4>
+              <ul className="list-disc ml-4 space-y-1 font-medium text-gray-500 text-body2">
+                <li className=" font-medium text-gray-500 text-body2">
+                  연구 종료 후 최대 3년 보관 후 파기
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
