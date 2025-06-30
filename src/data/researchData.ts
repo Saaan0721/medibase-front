@@ -20,7 +20,7 @@ export type SurveyData = {
 export const researchData: SurveyData[] = [
   {
     key: "itchInterference",
-    title: "가려움증 간섭 정도 (Itch Interference)",
+    title: "특정 항암 치료를 받은 암 환자에서 항암제군별 가려움 중증도 비교",
     institution: "서울대학교 의과대학",
     due: "2024-12-31",
     reward: "6000원",

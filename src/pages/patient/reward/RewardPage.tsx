@@ -77,8 +77,8 @@ export default function RewardPage() {
       {/* 버튼 */}
       <div className="mt-8 text-center">
         <button
-          onClick={() => navigate(-1)}
-          className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+          onClick={() => navigate("/patient/research")}
+          className="px-6 py-2 bg-black text-white rounded hover:bg-gray-800 transition"
         >
           이전으로 돌아가기
         </button>

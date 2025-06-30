@@ -1,9 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 import { sha256 } from "../utils/sha256";
-import { globalHealthQuestions } from "../data/globalHealthQuestions";
 import { useUserStore } from "../store/useUserStore"; // zustand 예시
 import { useNavigate } from "react-router-dom";
+import { researchData } from "../data/researchData";
 
 type Question = {
   id: number;
@@ -18,7 +18,10 @@ type SurveyPanelProps = {
 export default function SurveyPanel({ researchId }: SurveyPanelProps) {
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [loading, setLoading] = useState(false);
-  const currentSurvey = globalHealthQuestions;
+  const currentSurvey = researchData.find(
+    (survey) => survey.key === "itchInterference"
+  ) ?? { title: "설문이 없습니다", questions: [], meta: [] }; // 기본값 추가
+
   const navigate = useNavigate();
   const userName = useUserStore((state) => state.name); // zustand 사용 시
 
@@ -73,7 +76,7 @@ export default function SurveyPanel({ researchId }: SurveyPanelProps) {
       <section className="p-8">
         <h3 className="text-h3 font-bold mb-4">{currentSurvey.title}</h3>
         <div className="grid grid-cols-1 md:grid-rows-2 gap-4 text-sm border p-8 border-gray-300 rounded-xl overflow-hidden items-center">
-          {currentSurvey.meta.map((item, idx) => (
+          {currentSurvey.meta.map((item, idx: number) => (
             <div key={idx} className="bg-white p-4">
               <div className="flex items-start gap-2">
                 <div className="flex items-center justify-center w-4 h-6 mt-[2px]">

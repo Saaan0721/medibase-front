@@ -142,13 +142,13 @@ export default function ResearchExportPage() {
             </div>
           ))}
         </div>
-        <div
-          className={`text-body1 px-4 py-3 border font-bold
-    bg-white text-gray-900 border-gray-200 hover:bg-gray-100 mb-4 h-16 rounded-xl
+        <button
+          className={`text-body1 px-4 py-3 w-full font-bold
+    bg-white text-gray-900 hover:bg-gray-100 mb-4 h-16 rounded-xl border-primary border-2
     flex items-center`}
         >
           PRO Data
-        </div>
+        </button>
       </div>
     </div>
   );
